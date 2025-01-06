@@ -1,0 +1,45 @@
+services:
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - nginx_project
+    depends_on:
+      - app1
+      - app2
+      - app3
+
+  app1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APP_NAME=App1
+    networks:
+      - nginx_project
+
+  app2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APP_NAME=App2
+    networks:
+      - nginx_project
+
+  app3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APP_NAME=App3
+    networks:
+      - nginx_project
+
+networks:
+  nginx_project:
+    driver: bridge
